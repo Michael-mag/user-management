@@ -20,12 +20,12 @@ public class UpdateUserController {
         this.commandGateway = commandGateway;
     }
 
-    @PutMapping(path = "/{userId}")
+    @PutMapping(path = "/{id}")
     public ResponseEntity<BaseResponse> updateUser(
-            @PathVariable(value="userId") String userId,
+            @PathVariable(value="id") String id,
             @Valid @RequestBody UpdateUserCommand command) {
         try {
-            command.setId(userId);
+            command.setId(id);
             commandGateway.send(command);
             return new ResponseEntity<>(new BaseResponse("User updated successfully"), HttpStatus.OK);
         } catch (Exception e) {
