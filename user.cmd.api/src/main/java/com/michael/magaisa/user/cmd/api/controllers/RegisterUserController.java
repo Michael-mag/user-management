@@ -27,14 +27,14 @@ public class RegisterUserController {
     public ResponseEntity<RegisterUserResponse> registerUser(@RequestBody RegisterUserCommand command){
         command.setId(UUID.randomUUID().toString());
         try {
-            commandGateway.sendAndWait(command);
+            commandGateway.send(command);
             return new ResponseEntity<>(
                     new RegisterUserResponse("New user : " + command.getId() + " registered successfully!"),
                     HttpStatus.CREATED);
         } catch (Exception e) {
             // Use the safe error message since the system generated exception might contain sensitive information
             var safeErrorMessage = "Error while processing register user request for id : " + command.getId();
-            System.out.println(safeErrorMessage);
+            System.out.println(e.toString());
 
             return new ResponseEntity<>(new RegisterUserResponse(safeErrorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
         }
