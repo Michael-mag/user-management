@@ -15,6 +15,9 @@ import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 @Aggregate
@@ -22,9 +25,10 @@ public class UserAggregate {
     @AggregateIdentifier
     private String id;
     private User user;
+
     private final PasswordEncoder passwordEncoder;
 
-    public UserAggregate(){
+    public UserAggregate() {
         passwordEncoder = new PasswordEncoderImpl();
     }
 
@@ -46,34 +50,36 @@ public class UserAggregate {
     }
 
     @CommandHandler
-    public UserAggregate(UpdateUserCommand command) {
-        var updateUser = command.getUser();
-        updateUser.setId(command.getId());
-        passwordEncoder = new PasswordEncoderImpl();
-        var hashedPassword = passwordEncoder.hashedPassword(updateUser.getAccount().getPassword());
-        updateUser.getAccount().setPassword(hashedPassword);
+    public void handle(UpdateUserCommand command) {
+        var updatedUser = command.getUser();
+        updatedUser.setId(command.getId());
+        var password = updatedUser.getAccount().getPassword();
+        var hashedPassword = passwordEncoder.hashedPassword(password);
+        updatedUser.getAccount().setPassword(hashedPassword);
 
         var event = UserUpdatedEvent.builder()
                 .id(UUID.randomUUID().toString())
-                .user(updateUser)
+                .user(updatedUser)
                 .build();
 
         AggregateLifecycle.apply(event);
     }
 
     @CommandHandler
-    public UserAggregate(RemoveUserCommand command) {
-        passwordEncoder = new PasswordEncoderImpl();
+    public void handle(RemoveUserCommand command) {
         var event = new UserRemovedEvent();
         event.setId(command.getUserId());
-        AggregateLifecycle.apply(event);
 
+        AggregateLifecycle.apply(event);
     }
 
     @EventSourcingHandler
     public void on(UserRegisteredEvent event) {
         this.id = event.getUserId();
         this.user = event.getUser();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+        Date date = new Date();
+        System.out.println(dateFormat.format(date));
     }
 
     @EventSourcingHandler
@@ -86,4 +92,3 @@ public class UserAggregate {
         AggregateLifecycle.markDeleted();
     }
 }
-
