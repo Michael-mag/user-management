@@ -39,7 +39,7 @@ public class UserLookUpController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/byId/{id}")
     public ResponseEntity<UserLookUpResponse> getUserById(@PathVariable("id") String id) {
         try {
             var query = new FindUsersByIdQuery(id);
@@ -55,7 +55,7 @@ public class UserLookUpController {
         }
     }
 
-    @GetMapping("/{filter}")
+    @GetMapping("/byFilter/{filter}")
     public ResponseEntity<UserLookUpResponse> getUserByFilter(@PathVariable("filter") String filter) {
         try {
             var query = new SearchUsersQuery(filter);
