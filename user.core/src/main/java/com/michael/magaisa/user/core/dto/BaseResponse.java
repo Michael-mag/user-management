@@ -1,4 +1,4 @@
-package com.michael.magaisa.user.cmd.api.dto;
+package com.michael.magaisa.user.core.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
