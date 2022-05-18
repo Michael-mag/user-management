@@ -21,13 +21,13 @@ public class User {
     private String id;
 
     @NotEmpty(message = "First name is required")
-    private String firstName;
+    private String firstname;
 
     @NotEmpty(message = "Last name is required")
-    private String lastName;
+    private String lastname;
 
     @Email(message = "Please provide a valid email address")
-    private String email;
+    private String emailAddress;
 
     @NotNull(message = "Please provide account credentials")
     private Account account;
