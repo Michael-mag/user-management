@@ -2,8 +2,6 @@ package com.michael.magaisa.user.query.api.dto;
 
 import com.michael.magaisa.user.core.dto.BaseResponse;
 import com.michael.magaisa.user.core.models.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
