@@ -1,0 +1,25 @@
+server:
+  port: 9091
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: bank
+    jpa:
+      database-platform: org.hibernate.dialect.MySQL8Dialect
+      show-sql: true
+      hibernate:
+        dll-auto: update
+    datasource:
+      url: jdbc:mysql://localhost:3306/bank
+      username: root
+      password: magBankRootPsw
+
+
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-value: magBankSigningKey
