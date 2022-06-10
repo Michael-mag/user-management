@@ -50,10 +50,10 @@ public class AxonConfig {
     }
 
     @Bean
-    public TokenStore tokenStore (Serializer setializer){
+    public TokenStore tokenStore (Serializer serializer){
         return MongoTokenStore.builder()
                 .mongoTemplate(axonMongoTemplate())
-                .serializer(setializer)
+                .serializer(serializer)
                 .build();
     }
 
